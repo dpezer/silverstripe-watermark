@@ -5,15 +5,15 @@ namespace Gurucomkz\Watermark;
 use SilverStripe\Assets\Image;
 use Intervention\Image\Image as InterventionImage;
 use SilverStripe\Assets\Image_Backend;
-use SilverStripe\Assets\Storage\AssetContainer;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\SiteConfig\SiteConfig;
 
 /**
- * @property-read AssetContainer $owner
+ * @property-read Image $owner
  *
  */
-class ImageExtension extends DataExtension {
+class ImageExtension extends Extension
+{
 
     private static function ssPos2BackendPos($pos)
     {
@@ -36,13 +36,11 @@ class ImageExtension extends DataExtension {
     {
         $image = $this->owner;
 
+        /** @var SiteConfigExtension */
         $siteConfig = SiteConfig::current_site_config();
         $position = $position?:$siteConfig->WatermarkPosition;
 
-        if (!$image && $this->owner->record instanceof Image) {
-            $image = $this->owner->record;
-        }
-        if (!$image->exists()) {
+        if (!$image || !$image->exists()) {
             return $image;
         }
         $imgW = $image->getWidth();
@@ -53,21 +51,24 @@ class ImageExtension extends DataExtension {
 
         /** @var Image $watermark */
         $watermark = $siteConfig->WatermarkImage;
-        if(!$watermark->exists()) {
+        if (!$watermark->exists()) {
             return $image;
         }
-        if($siteConfig->WatermarkMaxWidth <= 0 || $siteConfig->WatermarkMaxHeight <= 0) {
+        if ($siteConfig->WatermarkMaxWidth <= 0 || $siteConfig->WatermarkMaxHeight <= 0) {
             return $image;
         }
 
-        $wmW = ceil($imgW / 100 * $siteConfig->WatermarkMaxWidth);
-        $wmH = ceil($imgH / 100 * $siteConfig->WatermarkMaxHeight);
+        $wmW = (int)ceil($imgW / 100 * $siteConfig->WatermarkMaxWidth);
+        $wmH = (int)ceil($imgH / 100 * $siteConfig->WatermarkMaxHeight);
 
-        if($wmW < 1 || $wmH < 1){
+        if ($wmW < 1 || $wmH < 1) {
             return $image;
         }
-        $watermarkResource = $watermark->FitMax($wmW,$wmH)->getImageBackend()->getImageResource();
-        if(!$watermarkResource) {
+
+        /** @var Image */
+        $fitMax = $watermark->FitMax($wmW, $wmH);
+        $watermarkResource = $fitMax->getImageBackend()->getImageResource();
+        if (!$watermarkResource) {
             return $image;
         }
 

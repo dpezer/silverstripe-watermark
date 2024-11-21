@@ -4,13 +4,26 @@ namespace Gurucomkz\Watermark;
 
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
+use SilverStripe\Core\Extension;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\FieldType\DBEnum;
 
-class SiteConfigExtension extends DataExtension {
+/**
+ * SiteConfigExtension
+ * 
+ * @property string $WatermarkPosition
+ * @property int $WatermarkMaxWidth
+ * @property int $WatermarkMaxHeight
+ * @property int $WatermarkXOffset
+ * @property int $WatermarkYOffset
+ *
+ * @property Image $WatermarkImage
+ */
+class SiteConfigExtension extends Extension
+{
     private static $db = [
         'WatermarkPosition' => 'Enum("Top,Right,Bottom,Left,Center,TopLeft,TopRight,BottomRight,BottomLeft","BottomRight")',
         'WatermarkMaxWidth' => 'Int',
@@ -26,18 +39,21 @@ class SiteConfigExtension extends DataExtension {
         'WatermarkImage',
     ];
 
-    public function updateCMSFields(FieldList $fields) {
+    public function updateCMSFields(FieldList $fields)
+    {
+        /** @var DBEnum */
+        $posOptions = $this->owner->dbObject('WatermarkPosition');
         $fields->addFieldsToTab('Root.Watermarking', [
             UploadField::create('WatermarkImage'),
-            DropdownField::create('WatermarkPosition','Watermark position',$this->owner->dbObject('WatermarkPosition')->enumValues()),
-            FieldGroup::create('Watermark max size',[
-                TextField::create('WatermarkMaxWidth','Width (%)'),
-                TextField::create('WatermarkMaxHeight','Height (%)'),
+            DropdownField::create('WatermarkPosition', 'Watermark position', $posOptions->enumValues()),
+            FieldGroup::create('Watermark max size', [
+                TextField::create('WatermarkMaxWidth', 'Width (%)'),
+                TextField::create('WatermarkMaxHeight', 'Height (%)'),
             ])
             ->setDescription('No watermark will appear of one if these is zero.'),
-            FieldGroup::create('Watermark offset',[
-                TextField::create('WatermarkXOffset','Horizontal Offset'),
-                TextField::create('WatermarkYOffset','Vertical Offset'),
+            FieldGroup::create('Watermark offset', [
+                TextField::create('WatermarkXOffset', 'Horizontal Offset'),
+                TextField::create('WatermarkYOffset', 'Vertical Offset'),
             ]),
         ]);
     }

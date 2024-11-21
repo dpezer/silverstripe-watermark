@@ -1,10 +1,10 @@
 # Add watermarks to images in SilverStripe
 
-Adds image watermarking to the list of available command for image manipulation in SilverStripe 4.
+Adds image watermarking to the list of available command for image manipulation in SilverStripe 4/5.
 
 ## Requirements
 
-SilverStripe ~4
+SilverStripe ~4 || ~5
 
 ## Installation
 

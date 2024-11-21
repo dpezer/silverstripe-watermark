@@ -1,8 +1,6 @@
 <?php
 namespace Gurucomkz\Watermark;
 
-use PageController;
-use SilverStripe\Control\Controller;
 use SilverStripe\Assets\Image;
 
 class Shortcode
@@ -15,6 +13,7 @@ class Shortcode
             return '';
         }
 
+        /** @var Image|ImageExtension */
         $image = Image::get()->filter("Name", $arguments['file'])->first();
         if (!isset($image)) {
             return '';
