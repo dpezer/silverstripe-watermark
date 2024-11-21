@@ -5,6 +5,7 @@ namespace Gurucomkz\Watermark;
 use SilverStripe\Assets\Image;
 use Intervention\Image\Image as InterventionImage;
 use SilverStripe\Assets\Image_Backend;
+use SilverStripe\Assets\Storage\AssetContainer;
 use SilverStripe\Core\Extension;
 use SilverStripe\SiteConfig\SiteConfig;
 
@@ -32,6 +33,12 @@ class ImageExtension extends Extension
         return $posmap[$pos];
     }
 
+    /**
+     * Apply a watermark
+     *
+     * @param string|null $position
+     * @return AssetContainer|static
+     */
     public function Watermark($position = null)
     {
         $image = $this->owner;

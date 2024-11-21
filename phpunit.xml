@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+    bootstrap="vendor/silverstripe/framework/tests/bootstrap.php"
+    stopOnFailure="true"
+    defaultTimeLimit="50"
+    enforceTimeLimit="true"
+    colors="true">
+    <testsuites>
+        <testsuite name="Default">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <groups>
+        <exclude>
+            <group>sanitychecks</group>
+        </exclude>
+    </groups>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./src/</directory>
+        </include>
+        <report>
+            <clover outputFile="coverage.xml"/>
+            <html outputDirectory="./coverage" />
+        </report>
+    </coverage>
+    <php>
+        <!-- for early initialisation in local mode see `.env.phpunit` -->
+        <ini name="memory_limit" value="300M"/>
+        <env name="SS_DATABASE_CLASS" value="MySQLDatabase" />
+        <env name="SS_DATABASE_SERVER" value="127.0.0.1" />
+        <env name="SS_DATABASE_USERNAME" value="root" />
+        <env name="SS_DATABASE_PASSWORD" value="secret" />
+        <env name="SS_DATABASE_CHOOSE_NAME" value="true" />
+    </php>
+</phpunit>

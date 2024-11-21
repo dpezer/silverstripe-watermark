@@ -18,7 +18,8 @@
     "require": {
         "silverstripe/vendor-plugin": "^2.0",
         "silverstripe/asset-admin": "^2",
-        "silverstripe/siteconfig": "^5"
+        "silverstripe/siteconfig": "^5",
+        "silverstripe/framework": "^5"
     },
     "extra": {
         "expose": [
@@ -26,7 +27,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Gurucomkz\\": "src/Gurucomkz"
+            "Gurucomkz\\Watermark\\": "src/Gurucomkz/Watermark",
+            "Gurucomkz\\Watermark\\Tests\\": "tests"
         }
     },
     "prefer-stable": true,
@@ -37,8 +39,19 @@
             "silverstripe/vendor-plugin": true
         }
     },
+    "scripts": {
+        "stan": [
+            "Composer\\Config::disableProcessTimeout",
+            "./vendor/bin/phpstan analyze --memory-limit=1G"
+        ],
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "XDEBUG_MODE=coverage ./vendor/bin/phpunit"
+        ]
+    },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.11",
-        "phpstan/phpstan": "^2.0"
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^9.6"
     }
 }

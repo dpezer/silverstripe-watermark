@@ -13,7 +13,7 @@ use SilverStripe\ORM\FieldType\DBEnum;
 
 /**
  * SiteConfigExtension
- * 
+ *
  * @property string $WatermarkPosition
  * @property int $WatermarkMaxWidth
  * @property int $WatermarkMaxHeight
