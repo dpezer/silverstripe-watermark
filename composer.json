@@ -18,7 +18,7 @@
     "require": {
         "php": ">=8.1",
         "silverstripe/framework": "^6",
-        "silverstripe/assets": "^2",
+        "silverstripe/assets": "^3",
         "silverstripe/vendor-plugin": "^3"
     },
     "autoload": {
