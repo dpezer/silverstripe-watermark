@@ -96,7 +96,7 @@ class ImageExtension extends Extension
 
             $rcCopy = clone $resource;
 
-            $rcCopy->insert(
+            $rcCopy->place(
                 $watermarkResource,
                 $backendAnchor,
                 $wmXOffset,

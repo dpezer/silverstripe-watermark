@@ -4,7 +4,7 @@ Adds image watermarking to the list of available command for image manipulation 
 
 ## Requirements
 
-SilverStripe ~4 || ~5
+SilverStripe ~4 || ~5 || ~6
 
 ## Installation
 
